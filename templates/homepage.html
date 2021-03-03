@@ -7,15 +7,25 @@
 
 {% block body %}
 
+<header>
+  <nav>
+    <ul class='nav-links'>
+      <li> <a href="#">News</a> </li>
+      <li> <a href="#">Reddit</a> </li>
+      <li> <a href="#">Resources</a> </li>
+    </ul>
+  </nav>
 
+  <button><a class='cta' href="#">Contact</a></button>
+</header>
 
-{% for item in mw %}
+<!-- {% for item in mw %}
 {{ item|safe }}
 {% endfor %}
 
 {% for item in sa %}
 {{ item|safe }}
-{% endfor %}
+{% endfor %} -->
 
 
 {% endblock %}
