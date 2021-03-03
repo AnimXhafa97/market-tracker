@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+
+{% block title %}home{% endblock %}
+
+
+
+{% block body %}
+
+
+
+{% for item in mw %}
+{{ item|safe }}
+{% endfor %}
+
+{% for item in sa %}
+{{ item|safe }}
+{% endfor %}
+
+
+{% endblock %}
