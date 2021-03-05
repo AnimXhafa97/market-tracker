@@ -1,51 +1,79 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  background-color: #24252A;
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+body {
+	margin: 0;
+	font-family: 'Work Sans', sans-serif;
+	font-weight: 800;
 }
 
-li, a, button {
-  font-family: Arial;
-  font-weight: 500;
-  font-size: 16px;
-  color: #edf0f1;
-  text-decoration: none
+.container {
+	width: 100%;
+	margin: 0 auto;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 10%;
+  background: #55d6aa;
 }
 
-.nav-links {
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+  padding: 10px 0;
+  width: 60px;
+  height: 75px;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
-.nav-links li {
+nav li {
   display: inline-block;
-  padding: 0px, 20px;
+  margin-left: 70px;
+  padding-top: 23px;
+
+  position: relative;
 }
 
-.nav-links li a {
-  transition: all 0.3s ease 0s;
+nav ul > li > a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
 }
 
-.nav-links li a:hover {
-  color: #0088a9
+nav a:hover {
+  color: #000;
+  text-decoration: none;
 }
 
-button {
-  padding: 9px 25px;
-  background-color: rgba(0, 136, 169, 1);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #444;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
 }
 
-button:hover {
-  background-color: rgba(0, 136, 169, 0.8)
+nav a:hover::before {
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
 }

@@ -66,14 +66,15 @@ def scrape_news():
     sa_soup = BeautifulSoup(seeking_alpha, 'lxml')
 
     mw_headlines = mw_soup.find_all('a', class_='link')
-    sa_headlines = sa_soup.find_all('h3', class_='ba510-qhu28 d45c6-2hlaP _5a9f8-JdZFq _5a9f8-SfA3O _5a9f8-1qXni')
+    mw_summaries = mw_soup.find_all('p', class_='article__summary')
 
     for item in mw_headlines:
         if item.find_parent('h3', class_='article__headline') is not None:
             links.append(item)
 
 
-    return links
+
+    return links, mw_summaries
 
 
 #get_mentions()

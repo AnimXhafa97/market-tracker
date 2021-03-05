@@ -5,7 +5,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('homepage.html', mentions = get_mentions(), mw = scrape_news())
+    mw = scrape_news()[0]
+    sums = scrape_news()[1]
+    return render_template('homepage.html', mentions = get_mentions(), mw_card = zip(mw, sums))
 
 if __name__=='__main__':
     app.run(debug=True)
