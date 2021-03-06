@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+
+{% block title %}home{% endblock %}
+
+
+
+{% block body %}
+
+<header>
+  <div class="container">
+    <img src="static/logo.png" alt="stonks" class="logo">
+
+    <nav>
+      <ul>
+        <li> <a href="#">Home</a> </li>
+        <li> <a href="{{ url_for('reddit') }}">Reddit Stocks</a> </li>
+        <li> <a href="#">Investment Resources</a> </li>
+        <li> <a href="#">Contact Me</a> </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<h1>REDDIT!</h1>
+
+
+{% endblock %}

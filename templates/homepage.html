@@ -14,7 +14,7 @@
     <nav>
       <ul>
         <li> <a href="#">Home</a> </li>
-        <li> <a href="#">Reddit Stocks</a> </li>
+        <li> <a href="{{ url_for('reddit') }}">Reddit Stocks</a> </li>
         <li> <a href="#">Investment Resources</a> </li>
         <li> <a href="#">Contact Me</a> </li>
       </ul>
@@ -23,24 +23,37 @@
 </header>
 
 <h1>STOCK MARKET NEWS</h1>
-<p style="text-align:center">From a bunch of different sources</p>
+<p style="text-align:center">Updated Daily</p>
 
 
 
 <div class="container" id="news">
 <div class="row">
-  {% for mw, sums in mw_card %}
+  {% for mw_headlines, mw_sums in mw_card %}
   <div class="col-sm" style="padding-bottom: 10px;">
     <div class="card" style="width: 18rem; height: 20rem;">
       <div class="card-body">
-        <h5 class="card-title">{{ mw|safe }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text">{{ sums|safe }}</p>
+        <h5 class="card-title">{{ mw_headlines|safe }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">MarketWatch</h6>
+        <p class="card-text">{{ mw_sums|safe }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  {% for ip_headlines, ip_sums in ip_card %}
+  <div class="col-sm" style="padding-bottom: 10px;">
+    <div class="card" style="width: 18rem; height: 20rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ ip_headlines|safe }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">InvestorPlace</h6>
+        <p class="card-text">{{ ip_sums|safe }}</p>
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
+
 
 </div>
 

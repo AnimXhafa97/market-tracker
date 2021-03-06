@@ -56,28 +56,38 @@ def get_mentions():
 
 
 #web scraping
-def scrape_news():
-    links = []
+def scrape_mw():
+    mw_links = []
 
     marketwatch = requests.get('https://www.marketwatch.com/markets?mod=top_nav').text
-    seeking_alpha = requests.get('https://seekingalpha.com/').text
 
     mw_soup = BeautifulSoup(marketwatch, 'lxml')
-    sa_soup = BeautifulSoup(seeking_alpha, 'lxml')
 
     mw_headlines = mw_soup.find_all('a', class_='link')
     mw_summaries = mw_soup.find_all('p', class_='article__summary')
 
     for item in mw_headlines:
         if item.find_parent('h3', class_='article__headline') is not None:
-            links.append(item)
+            mw_links.append(item)
+
+    return mw_links[0:5], mw_summaries[0:5]
+
+def scrape_ip():
+
+    investorplace = requests.get('https://investorplace.com/category/todays-market/').text
+    ip_soup = BeautifulSoup(investorplace, 'lxml')
+
+    headlines = [x.a for x in ip_soup.find_all('h2', class_='entry-title ipm-category-title')]
+    captions = ip_soup.find_all('div', class_='entry-content ipm-category-post-content')
+
+    return headlines[0:5], captions[0:5]
+
+# def scrape_pedia():
+#
+#     investopedia = request.get('https://www.investopedia.com/markets-news-4427704')
+#     pedia_soup = BeautifulSoup(investopedia, 'lxml')
 
 
-
-    return links, mw_summaries
-
-
-#get_mentions()
 
 ### AUTOMATION SCRIPT ###
 # schedule.every().day.at('9:00').do(get_mentions)
