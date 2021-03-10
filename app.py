@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from helpers import get_mentions, scrape_mw, scrape_ip
+from helpers import get_reddit, scrape_mw, scrape_ip
 
 app = Flask(__name__)
 
@@ -13,11 +13,11 @@ def index():
     ip_headlines = scrape_ip()[0]
     ip_sums = scrape_ip()[1]
 
-    return render_template('homepage.html', mentions = get_mentions(), mw_card = zip(mw_headlines, mw_sums), ip_card = zip(ip_headlines, ip_sums))
+    return render_template('homepage.html', mw_card = zip(mw_headlines, mw_sums), ip_card = zip(ip_headlines, ip_sums))
 
 @app.route('/reddit')
 def reddit():
-    return render_template('reddit.html')
+    return render_template('reddit.html', posts = get_reddit()[1].items())
 
 if __name__=='__main__':
     app.run(debug=True)

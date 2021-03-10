@@ -13,7 +13,7 @@
 
     <nav>
       <ul>
-        <li> <a href="#">Home</a> </li>
+        <li> <a href="{{ url_for('index') }}">Home</a> </li>
         <li> <a href="{{ url_for('reddit') }}">Reddit Stocks</a> </li>
         <li> <a href="#">Investment Resources</a> </li>
         <li> <a href="#">Contact Me</a> </li>
@@ -22,7 +22,75 @@
   </div>
 </header>
 
-<h1>REDDIT!</h1>
+<div class="container">
+
+  <h4> <b>r/wallstreetbets</b> </h4>
+
+  {% for key, value in posts %}
+    {% if key == 'wallstreetbets' %}
+    {% for item in value %}
+
+
+    <p><a href="{{ item[3] }}">{{ item[0] }}</a></p>
+
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+  <h4> <b>r/stocks</b> </h4>
+
+  {% for key, value in posts %}
+    {% if key == 'stocks' %}
+    {% for item in value %}
+
+
+    <p><a href="{{ item[3] }}">{{ item[0] }}</a></p>
+
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+  <h4> <b>r/investing</b> </h4>
+
+  {% for key, value in posts %}
+    {% if key == 'investing' %}
+    {% for item in value %}
+
+
+    <p><a href="{{ item[3] }}">{{ item[0] }}</a></p>
+
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+  <h4> <b>r/options</b> </h4>
+
+  {% for key, value in posts %}
+    {% if key == 'options' %}
+    {% for item in value %}
+
+
+    <p><a href="{{ item[3] }}">{{ item[0] }}</a></p>
+
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+  <h4> <b>r/thecorporation</b> </h4>
+
+  {% for key, value in posts %}
+    {% if key == 'thecorporation' %}
+    {% for item in value %}
+
+
+    <p><a href="{{ item[3] }}">{{ item[0] }}</a></p>
+
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+</div>
+
 
 
 {% endblock %}

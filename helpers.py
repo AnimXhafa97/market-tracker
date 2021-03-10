@@ -29,30 +29,40 @@ reddit = praw.Reddit(
 
 err = ['A', 'OR', 'AM', 'IT', 'TY', 'BE', 'NEXT', 'DD', 'SOS', 'CEO', 'R', 'BIG', 'SNOW']
 
-def get_mentions():
+def get_reddit():
 
     mentions = {}
+    subreddits = {
+        'wallstreetbets': [],
+        'stocks': [],
+        'investing': [],
+        'options': [],
+        'thecorporation': []
+    }
 
-    for submission in reddit.subreddit('wallstreetbets').hot(limit=10):
+    for key in subreddits:
+        for submission in reddit.subreddit(key).hot(limit=10):
 
-        words = submission.title.split()
-        for word in words:
-            for symbol in df['Symbol']:
-                if word[0] == '$':
-                    if word[1:] in mentions:
-                        mentions[word[1:]] += 1
-                if word == symbol:
-                    if word in mentions:
-                        mentions[word] += 1
-                    else:
-                        mentions[word] = 1
+            subreddits[key].append([submission.title, submission.created_utc, submission.score, submission.url])
+
+            words = submission.title.split()
+            for word in words:
+                for symbol in df['Symbol']:
+                    if word[0] == '$':
+                        if word[1:] in mentions:
+                            mentions[word[1:]] += 1
+                    if word == symbol:
+                        if word in mentions:
+                            mentions[word] += 1
+                        else:
+                            mentions[word] = 1
 
     for x in err:
         if x in mentions:
             del mentions[x]
 
     sorted_mentions = sorted(mentions.items(), key=lambda x: x[1], reverse=True)
-    return sorted_mentions
+    return sorted_mentions, subreddits
 
 
 #web scraping
@@ -86,9 +96,6 @@ def scrape_ip():
 #
 #     investopedia = request.get('https://www.investopedia.com/markets-news-4427704')
 #     pedia_soup = BeautifulSoup(investopedia, 'lxml')
-
-
-
 ### AUTOMATION SCRIPT ###
 # schedule.every().day.at('9:00').do(get_mentions)
 #
