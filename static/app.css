@@ -77,3 +77,15 @@ nav a:hover::before {
 h1 {
   text-align: center;
 }
+
+#mentions {
+	padding-top: 25px;
+	width: 100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+	background-color: lightgray;
+}
+
+#mentions tr:nth-child(even) {
+	background-color: #eee;
+}

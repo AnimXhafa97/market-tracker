@@ -22,7 +22,29 @@
   </div>
 </header>
 
+
+
 <div class="container">
+
+<div style="padding-bottom: 50px; padding-top: 25px">
+  <table id="mentions">
+    <caption>What's trending on Reddit? Check out which stocks are mentioned in the top 10 posts of r/stocks, r/wallstreetbets, r/investing, r/options, and r/thecorporation</caption>
+    <tr>
+      <th>Ticker</th>
+      <th>Mentions</th>
+      <th>Price</th>
+    </tr>
+ {% for item in mentions %}
+    <tr>
+      <td>{{ item[0] }}</td>
+      <td>{{ item[1] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<h3 style="padding-bottom: 25px"> <u>Trending Reddit Posts</u> </h3>
+
 
   <h4> <b>r/wallstreetbets</b> </h4>
 

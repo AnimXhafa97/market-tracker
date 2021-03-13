@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from helpers import get_reddit, scrape_mw, scrape_ip
+from helpers import get_reddit, scrape_mw, scrape_ip, get_prices
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def index():
 
 @app.route('/reddit')
 def reddit():
-    return render_template('reddit.html', posts = get_reddit()[1].items())
+    return render_template('reddit.html', posts = get_reddit()[1].items(), mentions = get_reddit()[0], prices = get_prices())
 
 if __name__=='__main__':
     app.run(debug=True)

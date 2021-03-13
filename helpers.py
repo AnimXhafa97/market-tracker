@@ -5,11 +5,16 @@ import yfinance as yf
 import praw
 import schedule
 import time
+import typing
+from dotenv import load_dotenv
+import fmpsdk
 from bs4 import BeautifulSoup, SoupStrainer
 
-
+#these need to be environment variables
 client_ID = 'Zum_4b_HUOGdlQ'
 SECRET_KEY = 'N8aKuYioWG-Ya68Ii5O12rEBSoUsyA'
+
+
 
 R_USER = os.environ.get('r_username')
 R_PASS = os.environ.get('r_password')
@@ -40,17 +45,21 @@ def get_reddit():
         'thecorporation': []
     }
 
+    count = 0
     for key in subreddits:
-        for submission in reddit.subreddit(key).hot(limit=10):
-
-            subreddits[key].append([submission.title, submission.created_utc, submission.score, submission.url])
+        for submission in reddit.subreddit(key).hot(limit=100):
+            if count < 10:
+                subreddits[key].append([submission.title, submission.created_utc, submission.score, submission.url])
+                count += 1
 
             words = submission.title.split()
             for word in words:
                 for symbol in df['Symbol']:
-                    if word[0] == '$':
+                    if word[0] == '$' and word[1:] == symbol:
                         if word[1:] in mentions:
                             mentions[word[1:]] += 1
+                        else:
+                            mentions[word[1:]] = 1
                     if word == symbol:
                         if word in mentions:
                             mentions[word] += 1
@@ -65,14 +74,13 @@ def get_reddit():
     return sorted_mentions, subreddits
 
 
+
 #web scraping
 def scrape_mw():
     mw_links = []
-
     marketwatch = requests.get('https://www.marketwatch.com/markets?mod=top_nav').text
 
     mw_soup = BeautifulSoup(marketwatch, 'lxml')
-
     mw_headlines = mw_soup.find_all('a', class_='link')
     mw_summaries = mw_soup.find_all('p', class_='article__summary')
 
@@ -91,6 +99,18 @@ def scrape_ip():
     captions = ip_soup.find_all('div', class_='entry-content ipm-category-post-content')
 
     return headlines[0:5], captions[0:5]
+
+def get_prices():
+    load_dotenv()
+    fmp_api = os.environ.get('API_KEY')
+
+    prices = []
+
+    symbols = get_reddit()[0]
+    for symbol in symbols:
+        prices.append(fmpsdk.company_profile(apikey=fmp_api, symbol = symbol[0]))
+    return prices
+
 
 # def scrape_pedia():
 #
