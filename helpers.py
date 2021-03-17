@@ -47,11 +47,8 @@ def get_reddit():
 
     count = 0
     for key in subreddits:
+        #gets ticker mentions
         for submission in reddit.subreddit(key).hot(limit=100):
-            if count < 10:
-                subreddits[key].append([submission.title, submission.created_utc, submission.score, submission.url])
-                count += 1
-
             words = submission.title.split()
             for word in words:
                 for symbol in df['Symbol']:
@@ -66,12 +63,18 @@ def get_reddit():
                         else:
                             mentions[word] = 1
 
+    #gets posts
+    for key in subreddits:
+        for submission in reddit.subreddit(key).hot(limit=10):
+            subreddits[key].append([submission.title, submission.created_utc, submission.score, submission.url])
+
+    #removes potential errors from tickers
     for x in err:
         if x in mentions:
             del mentions[x]
 
     sorted_mentions = sorted(mentions.items(), key=lambda x: x[1], reverse=True)
-    return sorted_mentions, subreddits
+    return sorted_mentions[0:10], subreddits
 
 
 
@@ -100,16 +103,16 @@ def scrape_ip():
 
     return headlines[0:5], captions[0:5]
 
-def get_prices():
-    load_dotenv()
-    fmp_api = os.environ.get('API_KEY')
-
-    prices = []
-
-    symbols = get_reddit()[0]
-    for symbol in symbols:
-        prices.append(fmpsdk.company_profile(apikey=fmp_api, symbol = symbol[0]))
-    return prices
+# def get_prices():
+#     load_dotenv()
+#     fmp_api = os.environ.get('API_KEY')
+#
+#     prices = []
+#
+#     symbols = get_reddit()[0]
+#     for symbol in symbols:
+#         prices.append(fmpsdk.company_profile(apikey=fmp_api, symbol = symbol[0]))
+#     return prices
 
 
 # def scrape_pedia():

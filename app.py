@@ -1,7 +1,26 @@
 from flask import Flask, render_template
-from helpers import get_reddit, scrape_mw, scrape_ip, get_prices
+from helpers import get_reddit, scrape_mw, scrape_ip
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, exists
+from flask_migrate import Migrate
+import psycopg2
 
 app = Flask(__name__)
+
+# if not os.environ.get("DATABASE_URL"):
+#     raise RuntimeError('Database is not set')
+
+engine = psycopg2.connect(
+    database="marketnews-db",
+    user="animxhafa",
+    password="Manushaqe1",
+    host="marketnews-db.craptvtazevo.us-east-2.rds.amazonaws.com",
+    port='5432'
+)
+
+# engine = create_engine('marketnews-db.craptvtazevo.us-east-2.rds.amazonaws.com')
+db = SQLAlchemy()
+migrate = Migrate()
 
 @app.route('/')
 def index():
@@ -17,7 +36,7 @@ def index():
 
 @app.route('/reddit')
 def reddit():
-    return render_template('reddit.html', posts = get_reddit()[1].items(), mentions = get_reddit()[0], prices = get_prices())
+    return render_template('reddit.html', posts = get_reddit()[1].items(), mentions = get_reddit()[0])
 
 if __name__=='__main__':
     app.run(debug=True)
