@@ -41,13 +41,12 @@
   </div>
   {% endfor %}
 
-  {% for ip_headlines, ip_sums in ip_card %}
+  {% for item in ms_card %}
   <div class="col-sm" style="padding-bottom: 10px;">
     <div class="card" style="width: 18rem; height: 20rem;">
       <div class="card-body">
-        <h5 class="card-title">{{ ip_headlines|safe }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">InvestorPlace</h6>
-        <p class="card-text">{{ ip_sums|safe }}</p>
+        <h5 class="card-title">{{ item|safe }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Morningstar</h6>
       </div>
     </div>
   </div>

@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+
+{% block title %}home{% endblock %}
+
+
+
+{% block body %}
+
+<header>
+  <div class="container">
+    <img src="static/logo.png" alt="stonks" class="logo">
+
+    <nav>
+      <ul>
+        <li> <a href="{{ url_for('index') }}">Home</a> </li>
+        <li> <a href="{{ url_for('reddit') }}">Reddit Stocks</a> </li>
+        <li> <a href="{{ url_for('resources') }}">Investment Resources</a> </li>
+        <li> <a href="#">Contact Me</a> </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <p>Here's a list of educational resources about investing and personal finance that I've found helpful over the years.</p>
+  <h4>Books</h4>
+  <ul style="list-style-type: none;">
+    <li><a href="https://www.amazon.com/Will-Teach-You-Rich-Second-ebook/dp/B07GNXPP4P/ref=sr_1_1?crid=2OF78Y8KW8NB8&dchild=1&keywords=i+will+teach+you+to+be+rich+ramit+sethi&qid=1616269389&sprefix=i+will+teac%2Caps%2C150&sr=8-1" target="_blank">I Will Teach You to be Rich</a></li>
+    <li><a href="https://www.amazon.com/Think-Grow-Rich-Napoleon-Hill-ebook/dp/B0817HHZH4/ref=sr_1_1?dchild=1&keywords=think+and+grow+rich&qid=1616269419&sr=8-1" target="_blank">Think and Grow Rich</a></li>
+    <li><a href="https://www.amazon.com/Intelligent-Investor-Collins-Business-Essentials-ebook/dp/B000FC12C8/ref=sr_1_1?dchild=1&keywords=the+intelligent+investor&qid=1616269441&sr=8-1" target="_blank">The Intelligent Investor</a></li>
+    <li><a href="https://www.amazon.com/Psychology-Money-Timeless-lessons-happiness-ebook/dp/B084HJSJJ2/ref=sr_1_1?dchild=1&keywords=the+psychology+of+money&qid=1616269455&sr=8-1" target="_blank">The Psychology of Money</a></li>
+  </ul>
+
+
+  <h4>Sites/Blogs</h4>
+  <ul style="list-style-type: none;">
+    <li><a href="https://www.investopedia.com/" target="_blank">Investopedia</a></li>
+    <li><a href="https://www.nerdwallet.com/" target="_blank">Nerdwallet</a></li>
+  </ul>
+
+
+  <h4>YouTube Channels</h4>
+  <ul style="list-style-type: none;">
+    <li><a href="https://www.youtube.com/channel/UCV6KDgJskWaEckne5aPA0aQ" target="_blank">Graham Stephan</a></li>
+    <li><a href="https://www.youtube.com/channel/UC9IZYXzt4dl13MAycfoyMdQ" target="_blank">Rareliquid</a></li>
+    <li><a href="https://www.youtube.com/user/DaveRamseyShow" target="_blank">Dave Ramsey</a></li>
+    <li><a href="https://www.youtube.com/channel/UCWKODoiwSuLNSXIKuKnuQTQ" target="_blank">Matt Kohrs</a></li>
+    <li><a href="https://www.youtube.com/c/AndreiJikh/featured" target="_blank">Andrei Jikh</a></li>
+  </ul>
+
+
+  <h4>Podcasts</h4>
+  <ul style="list-style-type: none;">
+  <a href="https://www.npr.org/podcasts/510289/planet-money" target="_blank">Planet Money</a></li>
+</ul>
+
+  <h4>Options Trading</h4>
+    <ul style="list-style-type: none;">
+  <li><a href="https://beta.optionalpha.com/handbook" target="_blank">Options Handbook</a></li>
+  <li><a href="https://www.barchart.com/options/unusual-activity/stocks" target="_blank">Unusual Options Activity Tool</a></li>
+</ul>
+
+  <h4>Insider Trading</h4>
+  <p>COMING SOON!</p>
+
+</div>
+
+
+{% endblock %}

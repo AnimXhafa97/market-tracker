@@ -1,26 +1,26 @@
 from flask import Flask, render_template
-from helpers import get_reddit, scrape_mw, scrape_ip
+import helpers
+from helpers import get_reddit, scrape_mw, scrape_morningstar
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, exists
 from flask_migrate import Migrate
-import psycopg2
+
+
+# sorted_mentions = sorted(helpers.mentions.items(), key=lambda x: x[1], reverse=True)
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///marketnews.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# if not os.environ.get("DATABASE_URL"):
-#     raise RuntimeError('Database is not set')
+db = SQLAlchemy(app) #creates database instance
 
-engine = psycopg2.connect(
-    database="marketnews-db",
-    user="animxhafa",
-    password="Manushaqe1",
-    host="marketnews-db.craptvtazevo.us-east-2.rds.amazonaws.com",
-    port='5432'
-)
+class Reddit(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ticker = db.Column(db.String(10), unique=True, nullable = False)
+    mentions = db.Column(db.Integer, unique = False, nullable = False, default = 0)
 
-# engine = create_engine('marketnews-db.craptvtazevo.us-east-2.rds.amazonaws.com')
-db = SQLAlchemy()
-migrate = Migrate()
+    def __repr__(self):
+        return f"Reddit('{self.ticker}', '{self.mentions}')"
 
 @app.route('/')
 def index():
@@ -28,15 +28,16 @@ def index():
     mw_headlines = scrape_mw()[0]
     mw_sums = scrape_mw()[1]
 
-    #investorplace scrape
-    ip_headlines = scrape_ip()[0]
-    ip_sums = scrape_ip()[1]
-
-    return render_template('homepage.html', mw_card = zip(mw_headlines, mw_sums), ip_card = zip(ip_headlines, ip_sums))
+    return render_template('homepage.html', mw_card = zip(mw_headlines, mw_sums), ms_card = scrape_morningstar())
 
 @app.route('/reddit')
 def reddit():
-    return render_template('reddit.html', posts = get_reddit()[1].items(), mentions = get_reddit()[0])
+    return render_template('reddit.html', posts = get_reddit().items())
+
+@app.route('/resources')
+def resources():
+    return render_template('resources.html')
+
 
 if __name__=='__main__':
     app.run(debug=True)

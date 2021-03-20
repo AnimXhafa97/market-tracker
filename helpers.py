@@ -1,20 +1,16 @@
 import pandas as pd
 import requests
 import os
-import yfinance as yf
 import praw
-import schedule
-import time
-import typing
-from dotenv import load_dotenv
-import fmpsdk
 from bs4 import BeautifulSoup, SoupStrainer
+
+
+mentions = {}
+
 
 #these need to be environment variables
 client_ID = 'Zum_4b_HUOGdlQ'
-SECRET_KEY = 'N8aKuYioWG-Ya68Ii5O12rEBSoUsyA'
-
-
+SECRET_KEY = os.environ.get("REDDIT_SECRET")
 
 R_USER = os.environ.get('r_username')
 R_PASS = os.environ.get('r_password')
@@ -34,9 +30,8 @@ reddit = praw.Reddit(
 
 err = ['A', 'OR', 'AM', 'IT', 'TY', 'BE', 'NEXT', 'DD', 'SOS', 'CEO', 'R', 'BIG', 'SNOW']
 
-def get_reddit():
 
-    mentions = {}
+def get_reddit():
     subreddits = {
         'wallstreetbets': [],
         'stocks': [],
@@ -44,24 +39,22 @@ def get_reddit():
         'options': [],
         'thecorporation': []
     }
-
-    count = 0
-    for key in subreddits:
-        #gets ticker mentions
-        for submission in reddit.subreddit(key).hot(limit=100):
-            words = submission.title.split()
-            for word in words:
-                for symbol in df['Symbol']:
-                    if word[0] == '$' and word[1:] == symbol:
-                        if word[1:] in mentions:
-                            mentions[word[1:]] += 1
-                        else:
-                            mentions[word[1:]] = 1
-                    if word == symbol:
-                        if word in mentions:
-                            mentions[word] += 1
-                        else:
-                            mentions[word] = 1
+    # for key in subreddits:
+    #     #gets ticker mentions
+    #     for submission in reddit.subreddit(key).hot(limit=100):
+    #         words = submission.title.split()
+    #         for word in words:
+    #             for symbol in df['Symbol']:
+    #                 if word[0] == '$' and word[1:] == symbol:
+    #                     if word[1:] in mentions:
+    #                         mentions[word[1:]] += 1
+    #                     else:
+    #                         mentions[word[1:]] = 1
+    #                 if word == symbol:
+    #                     if word in mentions:
+    #                         mentions[word] += 1
+    #                     else:
+    #                         mentions[word] = 1
 
     #gets posts
     for key in subreddits:
@@ -73,8 +66,8 @@ def get_reddit():
         if x in mentions:
             del mentions[x]
 
-    sorted_mentions = sorted(mentions.items(), key=lambda x: x[1], reverse=True)
-    return sorted_mentions[0:10], subreddits
+    # sorted_mentions = sorted(mentions.items(), key=lambda x: x[1], reverse=True)
+    return subreddits
 
 
 
@@ -93,15 +86,22 @@ def scrape_mw():
 
     return mw_links[0:5], mw_summaries[0:5]
 
-def scrape_ip():
+def scrape_in():
+    pass
 
-    investorplace = requests.get('https://investorplace.com/category/todays-market/').text
-    ip_soup = BeautifulSoup(investorplace, 'lxml')
+def scrape_morningstar():
+    links = []
+    morningstar = requests.get('https://www.morningstar.com/markets').text
 
-    headlines = [x.a for x in ip_soup.find_all('h2', class_='entry-title ipm-category-title')]
-    captions = ip_soup.find_all('div', class_='entry-content ipm-category-post-content')
+    soup = BeautifulSoup(morningstar, 'lxml')
+    headlines = soup.find_all('a', class_= 'mdc-link mds-list-group__link')
 
-    return headlines[0:5], captions[0:5]
+    for item in headlines:
+        if item.find_parent('li', class_='mdc-list-group__item mds-list-group__item') is not None:
+            links.append(item)
+
+    return links[0:5]
+
 
 # def get_prices():
 #     load_dotenv()
