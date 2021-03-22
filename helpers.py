@@ -1,12 +1,11 @@
 import pandas as pd
-import requests
-import os
-import praw
+import requests, os, praw, json, selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup, SoupStrainer
 
-
-mentions = {}
-
+# PATH = 'C:\Program Files (x86)\chromedriver.exe'
+# driver = webdriver.Chrome(PATH)
 
 #these need to be environment variables
 client_ID = 'Zum_4b_HUOGdlQ'
@@ -62,9 +61,9 @@ def get_reddit():
             subreddits[key].append([submission.title, submission.created_utc, submission.score, submission.url])
 
     #removes potential errors from tickers
-    for x in err:
-        if x in mentions:
-            del mentions[x]
+    # for x in err:
+    #     if x in mentions:
+    #         del mentions[x]
 
     # sorted_mentions = sorted(mentions.items(), key=lambda x: x[1], reverse=True)
     return subreddits
@@ -86,19 +85,19 @@ def scrape_mw():
 
     return mw_links[0:5], mw_summaries[0:5]
 
-def scrape_in():
+def scrape_investors():
+    pass
+
+def scrape_yfin():
     pass
 
 def scrape_morningstar():
-    links = []
+
     morningstar = requests.get('https://www.morningstar.com/markets').text
-
     soup = BeautifulSoup(morningstar, 'lxml')
-    headlines = soup.find_all('a', class_= 'mdc-link mds-list-group__link')
 
-    for item in headlines:
-        if item.find_parent('li', class_='mdc-list-group__item mds-list-group__item') is not None:
-            links.append(item)
+    div = soup.find('div', class_='mdc-market-news')
+    links = div.find_all('a')
 
     return links[0:5]
 
