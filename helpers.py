@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup, SoupStrainer
 
+#testing some selenium stuff out
 # PATH = 'C:\Program Files (x86)\chromedriver.exe'
 # driver = webdriver.Chrome(PATH)
 
@@ -83,10 +84,19 @@ def scrape_mw():
         if item.find_parent('h3', class_='article__headline') is not None:
             mw_links.append(item)
 
+    for a in mw_links:
+        a['target'] = 'blank'
+
     return mw_links[0:5], mw_summaries[0:5]
 
-def scrape_investors():
-    pass
+# def scrape_investors():
+#     investors = requests.get('https://www.investors.com/news/').text
+#     soup = BeautifulSoup(investors, 'lxml')
+#
+#     news = soup.find('ul', class_='side-list')
+#     links = news.find_all('a')
+#
+#     return links[0:5]
 
 def scrape_yfin():
     pass
@@ -98,6 +108,10 @@ def scrape_morningstar():
 
     div = soup.find('div', class_='mdc-market-news')
     links = div.find_all('a')
+
+    for tag in links:
+        tag['href'] = 'https://www.morningstar.com' + tag['href']
+        tag['target'] = 'blank'
 
     return links[0:5]
 
